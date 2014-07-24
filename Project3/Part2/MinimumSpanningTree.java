@@ -12,7 +12,7 @@ public class MinimumSpanningTree {
 	private float[][] costMatrix;
 	
 	public MinimumSpanningTree() {
-		CityData newCityData = new CityData();
+		CityData newCityData = new CityData("routes.txt");
 		
 		cityInfo = newCityData.getListOfCities();
 		costMatrix = newCityData.getMatrixTravel().getTravelMatrix();

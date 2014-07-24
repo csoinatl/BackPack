@@ -36,6 +36,6 @@ public class CostEdge {
 	
 	@Override
 	public String toString() {
-		return "Starting at " + getStartCity() + " ending at " + getEndCity() + " with cost of " + getCost() + ".";
+		return "Starting at " + getStartCity().getCityName() + " ending at " + getEndCity().getCityName() + " with cost of " + getCost() + ".";
 	}
 }

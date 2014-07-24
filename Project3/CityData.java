@@ -14,9 +14,9 @@ public class CityData {
 	private CostEdge[] listOfCost;
 	private TravelMatrix matrixTravel; 
 
-	public CityData() {
-		new CityData("routes.txt");
-	}
+	//public CityData() {
+	//	new CityData("routes.txt");
+	//}
 	
 	/**
 	 * This should read data from the file
@@ -41,12 +41,14 @@ public class CityData {
                 	if (mainString.length > 0) {
                 		String originCity = mainString[0].trim();
                 		CityInfo curCityInfo = new CityInfo();
-                		CostEdge curCostEdge = new CostEdge();
+                		
                 		
                 		curCityInfo.setCityName(originCity);
-                		curCostEdge.setStartCity(curCityInfo);
+                		
                 		
                 		for (int stringCounter = 1; stringCounter < mainString.length; stringCounter++) {
+                                    CostEdge curCostEdge = new CostEdge();
+                                    curCostEdge.setStartCity(curCityInfo);
                 			String[] destinationArray = mainString[stringCounter].split(",");
                 			if (destinationArray.length > 0) {
                 				CityInfo destination = new CityInfo();
