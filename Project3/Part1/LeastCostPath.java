@@ -13,12 +13,14 @@ public class LeastCostPath {
 
 	private CityInfo[] cityInfo; 
 	private float[][] costMatrix;
+        private String[][] carrierMatrix;
         
         public LeastCostPath(){
             CityData newCityData = new CityData("routes.txt");
             
             cityInfo = newCityData.getListOfCities();
             costMatrix = newCityData.getMatrixTravel().getTravelMatrix();
+            carrierMatrix = newCityData.getMatrixTravel().getCarrierMatrix();
             
             for(CityInfo currentCity : cityInfo){
                 
@@ -66,11 +68,14 @@ public class LeastCostPath {
 	
         public void openCity(Queue<CostEdge> edgeList, CityInfo startCity, CityInfo[] cityInfo){
             for(CityInfo connectedCity : cityInfo){
-                if(CityInfo.CitySet.getCityOrdinal(connectedCity.getCityName()) != CityInfo.CitySet.getCityOrdinal(startCity.getCityName())){
+                int startIndex = CityInfo.CitySet.getCityOrdinal(startCity.getCityName());
+                int endIndex = CityInfo.CitySet.getCityOrdinal(connectedCity.getCityName());
+                if(startIndex != endIndex && costMatrix[startIndex][endIndex] >= 0){
                     CostEdge newEdge = new CostEdge();
                     newEdge.setStartCity(startCity);
                     newEdge.setEndCity(connectedCity);
-                    newEdge.setCost(costMatrix[CityInfo.CitySet.getCityOrdinal(startCity.getCityName())][CityInfo.CitySet.getCityOrdinal(connectedCity.getCityName())]);
+                    newEdge.setCost(costMatrix[startIndex][endIndex]);
+                    newEdge.setCarrier(carrierMatrix[startIndex][endIndex]);
                     edgeList.add(newEdge);
                 }
             }

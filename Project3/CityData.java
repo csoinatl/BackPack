@@ -55,7 +55,7 @@ public class CityData {
                 				destination.setCityName(destinationArray[0].trim());
                 				curCostEdge.setEndCity(destination);
                 				curCostEdge.setCost(Float.parseFloat(destinationArray[1].trim()));
-                				curCostEdge.setConnections(destinationArray[2].trim());
+                				curCostEdge.setCarrier(destinationArray[2].trim());
                 				edgeInfo.add(curCostEdge);
                 			}
                 		}
@@ -82,13 +82,15 @@ public class CityData {
         listOfCost = edgeInfo.toArray(listOfCost);
         matrixTravel = new TravelMatrix(listOfCities.length);
         
+        
         // Parsing the Travel Matrix... dum dum da... :)
         
         for (CostEdge curEdgeInfo : edgeInfo) {
         	int originValue = CityInfo.CitySet.getCityOrdinal(curEdgeInfo.getStartCity().getCityName());
         	int endValue = CityInfo.CitySet.getCityOrdinal(curEdgeInfo.getEndCity().getCityName());
-        	
+        	String carrier = curEdgeInfo.getCarrier();
         	matrixTravel.travelMatrix[originValue][endValue] = curEdgeInfo.getCost();
+                matrixTravel.carrierMatrix[originValue][endValue] = carrier;
         }
 	}
 	

@@ -7,7 +7,7 @@ public class CostEdge {
 	private CityInfo startCity;
 	private CityInfo endCity;
 	private float cost;
-	private String connections; // This item will only hold airport code
+	private String carrier; 
 
 	public CityInfo getStartCity() {
 		return startCity;
@@ -27,11 +27,11 @@ public class CostEdge {
 	public void setCost(float cost) {
 		this.cost = cost;
 	}
-	public String getConnections() {
-		return connections;
+	public String getCarrier() {
+		return carrier;
 	}
-	public void setConnections(String connections) {
-		this.connections = connections;
+	public void setCarrier(String connections) {
+		this.carrier = connections;
 	}
 	
 	@Override
