@@ -43,7 +43,7 @@ public class CityData {
                 		CityInfo curCityInfo = new CityInfo();
                 		
                 		
-                		curCityInfo.setCityName(originCity);
+                		curCityInfo.setCityName(CityInfo.CitySet.getCityOrdinal(originCity));
                 		
                 		
                 		for (int stringCounter = 1; stringCounter < mainString.length; stringCounter++) {
@@ -52,7 +52,7 @@ public class CityData {
                 			String[] destinationArray = mainString[stringCounter].split(",");
                 			if (destinationArray.length > 0) {
                 				CityInfo destination = new CityInfo();
-                				destination.setCityName(destinationArray[0].trim());
+                				destination.setCityName(CityInfo.CitySet.getCityOrdinal(destinationArray[0].trim()));
                 				curCostEdge.setEndCity(destination);
                 				curCostEdge.setCost(Float.parseFloat(destinationArray[1].trim()));
                 				curCostEdge.setCarrier(destinationArray[2].trim());

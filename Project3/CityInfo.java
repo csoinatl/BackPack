@@ -71,7 +71,7 @@ public class CityInfo {
 				case "HND":
 					return TOY.ordinal();
 				default:
-					return CitySet.valueOf(cityName).ordinal();
+					return CitySet.valueOf(cityName.toUpperCase()).ordinal();
 				}
 			
 		}
@@ -81,9 +81,49 @@ public class CityInfo {
 		return cityName;
 	}
 
-	public void setCityName(String cityName) {
-		this.cityName = cityName;
-		int cityOrdinal = CitySet.getCityOrdinal(cityName);
+	public void setCityName(int cityOrdinal) {
+		switch(cityOrdinal){
+                    case 0:
+                        cityName = "Atlanta";
+                        break;
+                    case 1:
+                        cityName = "Paris";
+                        break;
+                    case 2:
+                        cityName = "Cape Town";
+                        break;
+                    case 3:
+                        cityName = "Dubai";
+                        break;
+                    case 4:
+                        cityName = "Frankfurt";
+                        break;
+                    case 5:
+                        cityName = "Hyderabad";
+                        break;
+                    case 6:
+                        cityName = "New York";
+                        break;
+                    case 7:
+                        cityName = "New Orleans";
+                        break;
+                    case 8:
+                        cityName = "Beijing";
+                        break;
+                    case 9:
+                        cityName = "San Francisco";
+                        break;
+                    case 10:
+                        cityName = "Sydney";
+                        break;
+                    case 11:
+                        cityName = "Tokyo";
+                        break;
+                    case 12:
+                        cityName = "Zurich";
+                        break;
+                }
+		
 		setCityCode(CitySet.fromOrdinal(cityOrdinal).toString());
 	}
 

@@ -5,6 +5,7 @@ import Project3.CityInfo;
 import Project3.CostEdge;
 import Project3.DjikstraRow;
 import Project3.TravelMatrix;
+import java.text.DecimalFormat;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -93,6 +94,7 @@ public class LeastCostPath {
             }
         
         public void printLeastCost(DjikstraRow[] leastCost, CityInfo startingCity){
+            DecimalFormat df = new DecimalFormat("#,###,###,##0.00");
             StringBuilder output = new StringBuilder();
             output.append("The least cost path FROM ");
             output.append(startingCity.getCityName());
@@ -102,7 +104,7 @@ public class LeastCostPath {
                     output.append("TO: ");
                     output.append(city.getNodeIdentity().getCityName());
                     output.append(" is ");
-                    output.append(city.getCurrentCost());
+                    output.append(df.format(city.getCurrentCost()));
                     output.append(" through the cities: ");
                     getPath(output, city.getNodeIdentity(), leastCost);
                     output.append("end!\n");
