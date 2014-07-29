@@ -59,6 +59,7 @@ public class LeastCostPath {
                         if(totalCost < leastCost[cityIndex].getCurrentCost()){
                             leastCost[cityIndex].setPredicessorNode(predicessor);
                             leastCost[cityIndex].setCurrentCost(totalCost);
+                            
                         }
                     }
                 }
@@ -67,6 +68,8 @@ public class LeastCostPath {
             }
         }
 	
+       
+        
         public void openCity(Queue<CostEdge> edgeList, CityInfo startCity, CityInfo[] cityInfo){
             for(CityInfo connectedCity : cityInfo){
                 int startIndex = CityInfo.CitySet.getCityOrdinal(startCity.getCityName());
@@ -85,12 +88,7 @@ public class LeastCostPath {
         
         public float getPredicessorCost(CityInfo predicessor, DjikstraRow[] leastCost){
                 int predIndex = CityInfo.CitySet.getCityOrdinal(predicessor.getCityName());
-                if(null == leastCost[predIndex].getPredicessorNode()){
-                    return leastCost[predIndex].getCurrentCost();
-                }
-                else{
-                    return leastCost[predIndex].getCurrentCost() + getPredicessorCost(leastCost[predIndex].getPredicessorNode(), leastCost);
-                }
+                return leastCost[predIndex].getCurrentCost();
             }
         
         public void printLeastCost(DjikstraRow[] leastCost, CityInfo startingCity){

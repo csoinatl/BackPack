@@ -357,11 +357,7 @@ public class PartThree {
     
     public float getPredicessorCost(CityInfo predicessor, DjikstraRow[] leastCost) {
         int predIndex = CityInfo.CitySet.getCityOrdinal(predicessor.getCityName());
-        if (null == leastCost[predIndex].getPredicessorNode()) {
-            return leastCost[predIndex].getCurrentCost();
-        } else {
-            return leastCost[predIndex].getCurrentCost() + getPredicessorCost(leastCost[predIndex].getPredicessorNode(), leastCost);
-        }
+        return leastCost[predIndex].getCurrentCost();
     }
 
     /**
