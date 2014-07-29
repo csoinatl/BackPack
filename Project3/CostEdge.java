@@ -1,7 +1,14 @@
 package Project3;
 
 import java.util.ArrayList;
-
+/**
+ * CS6423 Algorithmic Processes
+ * Summer 2014
+ * Project 3: CostEdge representation of an edge between cities
+ * Daniel Kerr and Charles So
+ * Date: 08/01/2014
+ * File: CityEdge.java
+ */
 public class CostEdge {
 
 	private CityInfo startCity;

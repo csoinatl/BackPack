@@ -13,8 +13,12 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /**
- *
- * @author Daniel
+ * CS6423 Algorithmic Processes
+ * Summer 2014
+ * Project 3: PartThree Djikstra/Yen's implementation
+ * Daniel Kerr and Charles So
+ * Date: 08/01/2014
+ * File: PartThree.java
  */
 public class PartThree {
 
@@ -63,15 +67,32 @@ public class PartThree {
             bestPath.add(0, answers[0][CityInfo.CitySet.getCityOrdinal(bestPath.get(0).getCityName())].getPredicessorNode());
         }
         generatePossible(paths, possibleSolution, answers);
-        answers[1] = getBest(possibleSolution, endCity);
-        ArrayList<CityInfo> secondPath = new ArrayList<CityInfo>();
-        secondPath.add(endCity);
-        while(answers[1][CityInfo.CitySet.getCityOrdinal(secondPath.get(0).getCityName())].getPredicessorNode() != null){
-            secondPath.add(0, answers[1][CityInfo.CitySet.getCityOrdinal(secondPath.get(0).getCityName())].getPredicessorNode());
+        // If possible solution is empty, there are is only one legitimate path
+        // as is the case of HYD to CPT, DXB to HYD, or DXB to CPT (possibly others)
+        if(possibleSolution.isEmpty()){
+            answers[1] = answers[0];
+            answers[2] = answers[0];
         }
-        paths.add(secondPath);
-        generatePossible(paths, possibleSolution, answers);
-        answers[2] = getBest(possibleSolution, endCity);
+        else{
+            answers[1] = getBest(possibleSolution, endCity);
+            ArrayList<CityInfo> secondPath = new ArrayList<CityInfo>();
+            secondPath.add(endCity);
+            while(answers[1][CityInfo.CitySet.getCityOrdinal(secondPath.get(0).getCityName())].getPredicessorNode() != null){
+                secondPath.add(0, answers[1][CityInfo.CitySet.getCityOrdinal(secondPath.get(0).getCityName())].getPredicessorNode());
+            }
+            paths.add(secondPath);
+            generatePossible(paths, possibleSolution, answers);
+            //In the case that the possibleSolution container is empty, then there are only tw0
+            //distinct paths. I don't think this occurs with our dataset, but I am unsure
+            // but, for example, _if_ Cape Town and Hyderabad had a connection between them, 
+            //than DXB to CPT or DXB to HYD would have only two valid paths 
+            if(possibleSolution.isEmpty()){
+                answers[2] = answers[0];
+            }
+            else{
+                    answers[2] = getBest(possibleSolution, endCity);
+            }
+        }
     }
     
     public DjikstraRow[] getBest(ArrayList<DjikstraRow[]> possibleSolution, CityInfo endCity){
@@ -295,38 +316,83 @@ public class PartThree {
         DecimalFormat df = new DecimalFormat("#,###,###,##0.00");
         StringBuilder output = new StringBuilder();
         int endIndex = CityInfo.CitySet.getCityOrdinal(endCity.getCityName());
-        output.append("We found the best three options from ");
-        output.append(startCity.getCityName());
-        output.append(" to ");
-        output.append(endCity.getCityName());
-        output.append("\nOption 1:\n\t");
-        output.append("Cost: $");
-        output.append(df.format(answer[0][endIndex].getCurrentCost()));
-        output.append(" Route: ");
-        getPath(output, endCity, answer[0]);
-        output.append("(end) Carriers:");
-        getCarrier(output, endCity, answer[0]);
-        output.append("(end)\n");
+        if(answer[0] == answer[1] && answer[0] == answer[2]){
+            //case of only one unique path
+            output.append("There is only one valid path from ");
+            output.append(startCity.getCityName());
+            output.append(" to ");
+            output.append(endCity.getCityName());
+            output.append("\nONLY option:\n\t");
+            output.append("Cost: $");
+            output.append(df.format(answer[0][endIndex].getCurrentCost()));
+            output.append(" Route: ");
+            getPath(output, endCity, answer[0]);
+            output.append("(end) Carriers:");
+            getCarrier(output, endCity, answer[0]);
+            output.append("(end)\n");
+            
+            System.out.println(output.toString());
+        }
+        else if(answer[1] == answer[2]){
+            //case of only two valid paths
+            output.append("We only found two valid options from ");
+            output.append(startCity.getCityName());
+            output.append(" to ");
+            output.append(endCity.getCityName());
+            output.append("\nOption 1:\n\t");
+            output.append("Cost: $");
+            output.append(df.format(answer[0][endIndex].getCurrentCost()));
+            output.append(" Route: ");
+            getPath(output, endCity, answer[0]);
+            output.append("(end) Carriers:");
+            getCarrier(output, endCity, answer[0]);
+            output.append("(end)\n");
+            
+            output.append("Option 2:\n\t");
+            output.append("Cost: $");
+            output.append(df.format(answer[1][endIndex].getCurrentCost()));
+            output.append(" Route: ");
+            getPath(output, endCity, answer[1]);
+            output.append("(end) Carriers:");
+            getCarrier(output, endCity, answer[1]);
+            output.append("(end)\n");
+            
+            System.out.println(output.toString());
+        }
+        else{
+            output.append("We found the best three options from ");
+            output.append(startCity.getCityName());
+            output.append(" to ");
+            output.append(endCity.getCityName());
+            output.append("\nOption 1:\n\t");
+            output.append("Cost: $");
+            output.append(df.format(answer[0][endIndex].getCurrentCost()));
+            output.append(" Route: ");
+            getPath(output, endCity, answer[0]);
+            output.append("(end) Carriers:");
+            getCarrier(output, endCity, answer[0]);
+            output.append("(end)\n");
         
-        output.append("Option 2:\n\t");
-        output.append("Cost: $");
-        output.append(df.format(answer[1][endIndex].getCurrentCost()));
-        output.append(" Route: ");
-        getPath(output, endCity, answer[1]);
-        output.append("(end) Carriers:");
-        getCarrier(output, endCity, answer[1]);
-        output.append("(end)\n");
+            output.append("Option 2:\n\t");
+            output.append("Cost: $");
+            output.append(df.format(answer[1][endIndex].getCurrentCost()));
+            output.append(" Route: ");
+            getPath(output, endCity, answer[1]);
+            output.append("(end) Carriers:");
+            getCarrier(output, endCity, answer[1]);
+            output.append("(end)\n");
         
-        output.append("Option 3:\n\t");
-        output.append("Cost: $");
-        output.append(df.format(answer[2][endIndex].getCurrentCost()));
-        output.append(" Route: ");
-        getPath(output, endCity, answer[2]);
-        output.append("(end) Carriers:");
-        getCarrier(output, endCity, answer[2]);
-        output.append("(end)\n");
+            output.append("Option 3:\n\t");
+            output.append("Cost: $");
+            output.append(df.format(answer[2][endIndex].getCurrentCost()));
+            output.append(" Route: ");
+            getPath(output, endCity, answer[2]);
+            output.append("(end) Carriers:");
+            getCarrier(output, endCity, answer[2]);
+            output.append("(end)\n");
         
-        System.out.println(output.toString());
+            System.out.println(output.toString());
+        }
     }
     
     public void getPath(StringBuilder output, CityInfo endCity, DjikstraRow[] leastCost){

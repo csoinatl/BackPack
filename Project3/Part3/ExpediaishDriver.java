@@ -8,8 +8,12 @@ import java.io.InputStreamReader;
 import java.util.HashSet;
 
 /**
- *
- * @author Daniel
+ * CS6423 Algorithmic Processes
+ * Summer 2014
+ * Project 3: ExpediaishDriver driver and user interface for part three
+ * Daniel Kerr and Charles So
+ * Date: 08/01/2014
+ * File: ExpediaishDriver.java
  */
 public class ExpediaishDriver {
 

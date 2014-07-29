@@ -9,7 +9,14 @@ import java.text.DecimalFormat;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-
+/**
+ * CS6423 Algorithmic Processes
+ * Summer 2014
+ * Project 3: LeastCostPath prints the lowest cost path from each city to each city
+ * Daniel Kerr and Charles So
+ * Date: 08/01/2014
+ * File: CityInfo.java
+ */
 public class LeastCostPath {
 
 	private CityInfo[] cityInfo; 
@@ -69,7 +76,7 @@ public class LeastCostPath {
         }
 	
        
-        
+        //Opens edges out of a city that has been visisted for the first time
         public void openCity(Queue<CostEdge> edgeList, CityInfo startCity, CityInfo[] cityInfo){
             for(CityInfo connectedCity : cityInfo){
                 int startIndex = CityInfo.CitySet.getCityOrdinal(startCity.getCityName());
@@ -86,11 +93,13 @@ public class LeastCostPath {
            
         }
         
+        //Computes the cost of a nodes predicsessor
         public float getPredicessorCost(CityInfo predicessor, DjikstraRow[] leastCost){
                 int predIndex = CityInfo.CitySet.getCityOrdinal(predicessor.getCityName());
                 return leastCost[predIndex].getCurrentCost();
             }
         
+        //Prints output
         public void printLeastCost(DjikstraRow[] leastCost, CityInfo startingCity){
             DecimalFormat df = new DecimalFormat("#,###,###,##0.00");
             StringBuilder output = new StringBuilder();
@@ -112,6 +121,7 @@ public class LeastCostPath {
             System.out.println(output.toString());
         }
         
+        //Recursively builds path from start city to end city
         public void getPath(StringBuilder output, CityInfo endCity, DjikstraRow[] leastCost){
             int endIndex = CityInfo.CitySet.getCityOrdinal(endCity.getCityName());
             if(leastCost[endIndex].getPredicessorNode() == null){

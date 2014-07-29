@@ -5,8 +5,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-
 import Project2.Part2.FileReader;
+
+/**
+ * CS6423 Algorithmic Processes
+ * Summer 2014
+ * Project 3: CityData Container for the information our programs use
+ * Daniel Kerr and Charles So
+ * Date: 08/01/2014
+ * File: CityData.java
+ */
 
 public class CityData {
 	
@@ -94,9 +102,7 @@ public class CityData {
         }
 	}
 	
-	public static void main(String[] args) {
-
-	}
+	
 
 	public CityInfo[] getListOfCities() {
 		return listOfCities;

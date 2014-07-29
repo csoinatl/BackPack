@@ -3,12 +3,20 @@ package Project3;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
-
+/**
+ * CS6423 Algorithmic Processes
+ * Summer 2014
+ * Project 3: CityInfo representation of a city node
+ * Daniel Kerr and Charles So
+ * Date: 08/01/2014
+ * File: CityInfo.java
+ */
 public class CityInfo {
 
 	private String cityName;
 	private String cityCode;
 
+        //Convenience enum to keep track of what city a particular node is
 	public static enum CitySet {
 		ATL, CDG, CPT, DUB, FRA, HYD, JFK, MSY, PEK, SFO, SYD, TOY, ZRH;
 
@@ -26,6 +34,7 @@ public class CityInfo {
 			return lookup.get(ordinal);
 		}
 
+                // We use this to check for city Identity
 		public static int getCityOrdinal(String cityName) {
 			if (cityName.length() > 3)
 				switch (cityName.toUpperCase()) {

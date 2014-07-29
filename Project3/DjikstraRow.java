@@ -1,8 +1,12 @@
 package Project3;
 
 /**
- *
- * @author KerrDa
+ * CS6423 Algorithmic Processes
+ * Summer 2014
+ * Project 3: DjikstraRow representation of a row used to compute Djikstra's algorithm
+ * Daniel Kerr and Charles So
+ * Date: 08/01/2014
+ * File: DjikstraRow.java
  */
 public class DjikstraRow {
     private CityInfo nodeIdentity;
