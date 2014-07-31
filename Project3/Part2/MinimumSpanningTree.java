@@ -59,9 +59,7 @@ public class MinimumSpanningTree {
 
                 System.out.println("We chose to treat the case of a city connected to another "
                         + "city, but with no return connection as having a return connection"
-                        + "\n of cost 0. This will cause "
-                        + "some difference in the total return cost weight of a connection "
-                        + "depending on what city is started in, resulting in a different total weight.");
+                        + "\n of cost 0.");
 		for (CityInfo curCity : cityInfo) {
 			// Let's traverse the cities and add items
 			String startCity = curCity.getCityName();
