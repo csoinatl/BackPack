@@ -27,6 +27,7 @@ public class PartThree {
     private String[][] carrierMatrix;
 
     public PartThree() {
+        // Read in the city data
         CityData newCityData = new CityData("routes.txt");
 
         cityInfo = newCityData.getListOfCities();
@@ -48,13 +49,25 @@ public class PartThree {
             }
         }
 
+        // Find best option using Djikstra
         DjikstraRow[][] answers = new DjikstraRow[3][cityInfo.length];
         answers[0] = djikstra(startCity, endCity);
+        // Find other two options using Yen's
         yen(startCity, endCity, answers);
         printAnswer(answers, startCity, endCity);
     }
 
-    
+    // Implements Yen's algoithm to find the three best routes. The best route
+    // is found using Djikstra's, and that is the input to this algorithm. It 
+    // essentially moves down the best route (the wikipedia page calls it a spur node
+    // we keep that terminology here), one city at a time, running djikstra's
+    // from the spur node to the end city, and combining that result with the root path
+    // (which is from the start city to the node before the spur node). This is 
+    // added to s set of potential paths. When every node in the best path is
+    // so treated (excepting for obvious reasons, the last node), the best of these
+    // options is added as the second best option. Yen's is then repeated, using
+    // the best and second best routes as input (the spur node scanning is now
+    // done on the second best route)
     public void yen(CityInfo startCity, CityInfo endCity, DjikstraRow[][] answers){
         // Since the array of DjikstraRows can only be read backward, we need a
         // forward linking representation:
@@ -95,6 +108,7 @@ public class PartThree {
         }
     }
     
+    // Selects the best possible answer
     public DjikstraRow[] getBest(ArrayList<DjikstraRow[]> possibleSolution, CityInfo endCity){
         int endIndex = CityInfo.CitySet.getCityOrdinal(endCity.getCityName());
         DjikstraRow[] bestRow = possibleSolution.get(0);
@@ -109,6 +123,9 @@ public class PartThree {
         return bestRow;
     }
     
+    // This is the meat of Yen's algorithm. This generates the spur node, root path,
+    // spur path, combines them to form a route option, and adds that to the possible
+    // answer container.
     public void generatePossible(ArrayList<ArrayList<CityInfo>> paths, ArrayList<DjikstraRow[]> possibleSolution, DjikstraRow[][] answers){
         ArrayList<CityInfo> currentPath = paths.get(paths.size() - 1);
         for(int i = 0; i < (currentPath.size() - 1); i++){
@@ -180,6 +197,8 @@ public class PartThree {
         }
     }
     
+    // Checks to see if a possible solution connects from the start city to the
+    // end city
     public boolean isComplete(DjikstraRow[] path, CityInfo start, CityInfo end){
         int startIndex = CityInfo.CitySet.getCityOrdinal(start.getCityName());
         int endIndex = CityInfo.CitySet.getCityOrdinal(end.getCityName());
@@ -200,6 +219,7 @@ public class PartThree {
         }
     }
     
+    // Djikstra's algorithm, our old friend
     public DjikstraRow[] djikstra(CityInfo start, CityInfo end) {
         String startCity = start.getCityName();
         int startCityCount = CityInfo.CitySet.getCityOrdinal(startCity);
@@ -240,6 +260,9 @@ public class PartThree {
         return leastCost;
     }
 
+    // Over loaded Djikstra's that uses the altered adjacency matrix that is part
+    // of Yen's. It also keeps track of the cost of the spur node (I wasn't doing
+    // that initially, and it caused _lots_ of problems. :)
     public DjikstraRow[] djikstra(CityInfo start, CityInfo end, float[][] adjustedMatrix, float startCost) {
         String startCity = start.getCityName();
         int startCityCount = CityInfo.CitySet.getCityOrdinal(startCity);
@@ -280,6 +303,7 @@ public class PartThree {
         return leastCost;
     }
     
+    // Helper method for Djikstra's
     public void openCity(Queue<CostEdge> edgeList, CityInfo startCity, CityInfo[] cityInfo) {
         for (CityInfo connectedCity : cityInfo) {
             int startIndex = CityInfo.CitySet.getCityOrdinal(startCity.getCityName());
@@ -296,6 +320,7 @@ public class PartThree {
 
     }
     
+    // Overloaded method to use the adjusted adjacency matrix for Yen's
     public void openCity(Queue<CostEdge> edgeList, CityInfo startCity, CityInfo[] cityInfo, float[][] adjustedMatrix) {
         for (CityInfo connectedCity : cityInfo) {
             int startIndex = CityInfo.CitySet.getCityOrdinal(startCity.getCityName());
@@ -312,6 +337,7 @@ public class PartThree {
 
     }
 
+    // Prints the answer to the console
     public void printAnswer(DjikstraRow[][] answer, CityInfo startCity, CityInfo endCity){
         DecimalFormat df = new DecimalFormat("#,###,###,##0.00");
         StringBuilder output = new StringBuilder();
@@ -395,6 +421,7 @@ public class PartThree {
         }
     }
     
+    //Helper method for printing the path a flight takes
     public void getPath(StringBuilder output, CityInfo endCity, DjikstraRow[] leastCost){
             int endIndex = CityInfo.CitySet.getCityOrdinal(endCity.getCityName());
             if(leastCost[endIndex].getPredicessorNode() == null){
@@ -408,6 +435,7 @@ public class PartThree {
             }
         }
     
+    //Helper method for printing the carriers for the given flights
     public void getCarrier(StringBuilder output, CityInfo endCity, DjikstraRow[] leastCost){
         int endIndex = CityInfo.CitySet.getCityOrdinal(endCity.getCityName());
         if(leastCost[endIndex].getPredicessorNode() == null){
@@ -421,6 +449,7 @@ public class PartThree {
         }
     }
     
+    // Get's the predicessor's cost
     public float getPredicessorCost(CityInfo predicessor, DjikstraRow[] leastCost) {
         int predIndex = CityInfo.CitySet.getCityOrdinal(predicessor.getCityName());
         return leastCost[predIndex].getCurrentCost();

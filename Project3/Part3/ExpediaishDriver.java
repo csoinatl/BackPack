@@ -22,12 +22,15 @@ public class ExpediaishDriver {
         
     }
     
+    // Prints the city choices. 
     public static void printChoices(CityInfo[] cityInfo){
         for(CityInfo city : cityInfo){
             System.out.println("\t" + city.getCityName() + " (" + city.getCityCode() + ")");
         }
     }
     
+    // Prints the available city choices, overloaded to not print the city chosen
+    // to start in
     public static void printChoices(CityInfo[] cityInfo, String start){
         for(CityInfo city : cityInfo){
             if(CityInfo.CitySet.getCityOrdinal(city.getCityCode()) != CityInfo.CitySet.getCityOrdinal(start))
@@ -35,6 +38,7 @@ public class ExpediaishDriver {
         }
     }
     
+    // Simple input verification
     public static boolean verifyInput(String input, CityInfo[] cityInfo){
         String lower = input.toLowerCase();
         HashSet<String> options = new HashSet<String>();
@@ -51,6 +55,8 @@ public class ExpediaishDriver {
         }
     }
     
+    // Simple input verification, overloaded to check for someone trying to travel to 
+    // the same city they started in
     public static boolean verifyInput(String input, CityInfo[] cityInfo, String start){
         String lower = input.toLowerCase();
         HashSet<String> options = new HashSet<String>();
@@ -73,12 +79,13 @@ public class ExpediaishDriver {
         }
     }
     
+    //Simple user interface, loops through until you tell it to quit
     public static void main(String[] args) throws IOException {
         PartThree partThree = new PartThree();
         BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
         String quitString = "";
         do{
-            System.out.println("Welcome to Expedia-ish! Your spot for low-cost-ish airfair.");
+            System.out.println("Welcome to Expedia-ish! Your spot for low-cost-ish airfare.");
             System.out.print("Please choose, from the following list, a city from"
                     + " which to start your travels:\n");
             String startCity = "";
