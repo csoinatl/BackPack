@@ -8,7 +8,14 @@ import Project3.CityData;
 import Project3.CityInfo;
 import Project3.CostEdge;
 import java.util.PriorityQueue;
-
+/**
+ * CS6423 Algorithmic Processes
+ * Summer 2014
+ * Project 3: MinimumSpanningTree - prints the minimum spanning tree starting in each city
+ * Daniel Kerr and Charles So
+ * Date: 08/01/2014
+ * File: MinimumSpanningTree.java
+ */
 public class MinimumSpanningTree {
 
 	private CityInfo[] cityInfo;
@@ -30,37 +37,20 @@ public class MinimumSpanningTree {
            
         }
         
-        public CostEdge getMinimumEdge(int startCityCount, CityInfo[] cityInfo,
-			float[][] costMatrix, ArrayList<Integer> cityAddedIn) {
-		CostEdge edgeToReturn = null;
-		float minimum = Long.MAX_VALUE;
-		int minimumCity = -1;
+       
 
-		for (int counter = 0; counter < cityInfo.length; counter++) {
-			if (costMatrix[startCityCount][counter] < minimum
-					&& !cityAddedIn.contains(new Integer(counter))
-					&& costMatrix[startCityCount][counter] != -1) {
-				minimum = costMatrix[startCityCount][counter];
-				minimumCity = counter;
-			}
-		}
-
-		if (minimumCity != -1) {
-			edgeToReturn = new CostEdge();
-			edgeToReturn.setStartCity(cityInfo[startCityCount]);
-			edgeToReturn.setEndCity(cityInfo[minimumCity]);
-			edgeToReturn.setCost(costMatrix[startCityCount][minimumCity]);
-		}
-
-		return edgeToReturn;
-	}
-
+        // A Prim like implementation
 	public MinimumSpanningTree() {
 		CityData newCityData = new CityData("routes.txt");
 
 		cityInfo = newCityData.getListOfCities();
 		costMatrix = newCityData.getMatrixTravel().getTravelMatrix();
 
+                System.out.println("For each starting city, this program will print"
+                        + " a list of edges noting the start city and the end"
+                        + "city.\nWe expect to see no _end_ city visited more than"
+                        + "once.\nIt will print the edge cost for each edge, and"
+                        + "the total cost for the whole tree at the end.");
 		for (CityInfo curCity : cityInfo) {
 			// Let's traverse the cities and add items
 			String startCity = curCity.getCityName();
@@ -75,12 +65,17 @@ public class MinimumSpanningTree {
                         
 			
 
+                        // repeat until all cities are part of the tree
 			while (cityAddedIn.size() < cityInfo.length) {
 				float minimum = Long.MAX_VALUE;
 				int minimumCity = -1;
 				
+                                // get the current least cost edge from the set of
+                                // cities that are currently part of the solution
+                                // tree
 				CostEdge minimumEdge = possibleEdges.poll();
-				if (minimumEdge != null 
+				// Only add if the end city is not alread part of the solution tree
+                                if (minimumEdge != null 
 						&& !cityAddedIn.contains(CityInfo.CitySet.getCityOrdinal(minimumEdge.getEndCity().getCityName()))) {
 					minimumTreeList.add(minimumEdge);
 					int endCityCount = CityInfo.CitySet.getCityOrdinal(minimumEdge.getEndCity().getCityCode());
