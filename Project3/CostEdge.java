@@ -1,5 +1,6 @@
 package Project3;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 /**
  * CS6423 Algorithmic Processes
@@ -43,6 +44,7 @@ public class CostEdge {
 	
 	@Override
 	public String toString() {
-		return "Starting at " + getStartCity().getCityName() + " ending at " + getEndCity().getCityName() + " with cost of " + getCost() + ".";
+                DecimalFormat df = new DecimalFormat("#,###,###,##0.00");
+		return getStartCity().getCityName() + " <-----> " + getEndCity().getCityName() + " with cost of " + df.format(getCost()) + ".";
 	}
 }

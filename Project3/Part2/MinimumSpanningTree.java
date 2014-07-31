@@ -21,7 +21,10 @@ public class MinimumSpanningTree {
 	private CityInfo[] cityInfo;
 	private float[][] costMatrix;
 
-	//Opens edges out of a city that has been visisted for the first time
+	//Opens edges out of a city that has been visisted for the first time. This
+        // Will combine the round trip cost into the edge cost, treating a city pair
+        // that is unidirectional as having a return flight of cost 0 (essentially
+        // setting the weight to be the cost of the sole edge between the cities.
         public void openCity(PriorityQueue<CostEdge> edgeList, CityInfo startCity, CityInfo[] cityInfo){
             for(CityInfo connectedCity : cityInfo){
                 int startIndex = CityInfo.CitySet.getCityOrdinal(startCity.getCityName());
@@ -30,7 +33,11 @@ public class MinimumSpanningTree {
                     CostEdge newEdge = new CostEdge();
                     newEdge.setStartCity(startCity);
                     newEdge.setEndCity(connectedCity);
-                    newEdge.setCost(costMatrix[startIndex][endIndex]);
+                    float returnCost = 0;
+                    if(costMatrix[endIndex][startIndex] > -1){
+                        returnCost += costMatrix[endIndex][startIndex];
+                    }
+                    newEdge.setCost(costMatrix[startIndex][endIndex] + returnCost);
                     edgeList.add(newEdge);
                 }
             }
@@ -46,11 +53,11 @@ public class MinimumSpanningTree {
 		cityInfo = newCityData.getListOfCities();
 		costMatrix = newCityData.getMatrixTravel().getTravelMatrix();
 
-                System.out.println("For each starting city, this program will print"
-                        + " a list of edges noting the start city and the end"
-                        + "city.\nWe expect to see no _end_ city visited more than"
-                        + "once.\nIt will print the edge cost for each edge, and"
-                        + "the total cost for the whole tree at the end.");
+                System.out.println("We chose to treat the case of a city connected to another "
+                        + "city, but with no return connection as having a return connection"
+                        + "\n of cost 0. This will cause "
+                        + "some difference in the total return cost weight of a connection "
+                        + "depending on what city is started in, resulting in a different total weight.");
 		for (CityInfo curCity : cityInfo) {
 			// Let's traverse the cities and add items
 			String startCity = curCity.getCityName();
