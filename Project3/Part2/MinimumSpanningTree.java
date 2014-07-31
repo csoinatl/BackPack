@@ -21,23 +21,27 @@ public class MinimumSpanningTree {
 	private CityInfo[] cityInfo;
 	private float[][] costMatrix;
 
-	//Opens edges out of a city that has been visisted for the first time. This
-        // Will combine the round trip cost into the edge cost, treating a city pair
-        // that is unidirectional as having a return flight of cost 0 (essentially
-        // setting the weight to be the cost of the sole edge between the cities.
+	// This is where the edge costs are computed. It will compute the round trip
+        // cost and assign that for an edge. If there is not a round trip (IE edge from A
+        // to B, but no edge from B to A, then it will set the cost to be the lone AB edge
         public void openCity(PriorityQueue<CostEdge> edgeList, CityInfo startCity, CityInfo[] cityInfo){
             for(CityInfo connectedCity : cityInfo){
                 int startIndex = CityInfo.CitySet.getCityOrdinal(startCity.getCityName());
                 int endIndex = CityInfo.CitySet.getCityOrdinal(connectedCity.getCityName());
-                if(startIndex != endIndex && costMatrix[startIndex][endIndex] >= 0){
+                if(startIndex != endIndex && (costMatrix[startIndex][endIndex] >= 0 ||
+                        costMatrix[endIndex][startIndex] >= 0)){
                     CostEdge newEdge = new CostEdge();
                     newEdge.setStartCity(startCity);
                     newEdge.setEndCity(connectedCity);
+                    float initialCost = 0;
+                    if(costMatrix[startIndex][endIndex] > -1){
+                        initialCost += costMatrix[startIndex][endIndex];
+                    }
                     float returnCost = 0;
                     if(costMatrix[endIndex][startIndex] > -1){
                         returnCost += costMatrix[endIndex][startIndex];
                     }
-                    newEdge.setCost(costMatrix[startIndex][endIndex] + returnCost);
+                    newEdge.setCost(initialCost + returnCost);
                     edgeList.add(newEdge);
                 }
             }
@@ -81,7 +85,7 @@ public class MinimumSpanningTree {
                                 // cities that are currently part of the solution
                                 // tree
 				CostEdge minimumEdge = possibleEdges.poll();
-				// Only add if the end city is not alread part of the solution tree
+				// Only add if the end city is not already part of the solution tree
                                 if (minimumEdge != null 
 						&& !cityAddedIn.contains(CityInfo.CitySet.getCityOrdinal(minimumEdge.getEndCity().getCityName()))) {
 					minimumTreeList.add(minimumEdge);
